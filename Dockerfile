@@ -25,8 +25,8 @@ RUN apt update \
     wget \
     && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ARG VERSION=29.0
-ARG BITCOIN_CORE_SIGNATURE=71A3B16735405025D447E8F274810B012346C9A6
+ARG VERSION=28.1.knots20250305
+ARG LUKE_PGP_SIGNATURE=1A3E761F19D2CC7785C5502EA291A2C45D0C504A
 
 # Don't use base image's bitcoin package for a few reasons:
 # 1. Would need to use ppa/latest repo for the latest release.
@@ -34,11 +34,11 @@ ARG BITCOIN_CORE_SIGNATURE=71A3B16735405025D447E8F274810B012346C9A6
 # 3. Verifying pkg signature from main website should inspire confidence and reduce chance of surprises.
 # Instead fetch, verify, and extract to Docker image
 RUN cd /tmp \
-    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys ${BITCOIN_CORE_SIGNATURE} \
-    && wget https://bitcoincore.org/bin/bitcoin-core-${VERSION}/SHA256SUMS.asc \
-    https://bitcoincore.org/bin/bitcoin-core-${VERSION}/SHA256SUMS \
-    https://bitcoincore.org/bin/bitcoin-core-${VERSION}/bitcoin-${VERSION}-${ARCH}-linux-gnu.tar.gz \
-    && gpg --verify --status-fd 1 --verify SHA256SUMS.asc SHA256SUMS 2>/dev/null | grep "^\[GNUPG:\] VALIDSIG.*${BITCOIN_CORE_SIGNATURE}\$" \
+    && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys ${LUKE_PGP_SIGNATURE} \
+    && wget https://bitcoinknots.org/files/28.x/${VERSION}/SHA256SUMS.asc \
+    https://bitcoinknots.org/files/28.x/${VERSION}/SHA256SUMS \
+    https://bitcoinknots.org/files/28.x/${VERSION}/bitcoin-${VERSION}-${ARCH}-linux-gnu.tar.gz \
+    && gpg --verify --status-fd 1 --verify SHA256SUMS.asc SHA256SUMS 2>/dev/null | grep "^\[GNUPG:\] VALIDSIG.*${LUKE_PGP_SIGNATURE}\$" \
     && sha256sum --ignore-missing --check SHA256SUMS \
     && tar -xzvf bitcoin-${VERSION}-${ARCH}-linux-gnu.tar.gz -C /opt \
     && ln -sv bitcoin-${VERSION} /opt/bitcoin \
@@ -46,7 +46,7 @@ RUN cd /tmp \
     && rm -v /opt/bitcoin/bin/test_bitcoin /opt/bitcoin/bin/bitcoin-qt
 
 FROM ubuntu:latest
-LABEL maintainer="Kyle Manna <kyle@kylemanna.com>"
+LABEL maintainer="Michael Henke <michael@noreply.codingmerc.com>"
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 ENV HOME=/bitcoin

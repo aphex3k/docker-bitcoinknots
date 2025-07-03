@@ -1,6 +1,6 @@
 [Unit]
-Description=Bitcoind Docker Container
-Documentation=https://github.com/kylemanna/docker-bitcoind
+Description=Bitcoin Knots Docker Container
+Documentation=https://github.com/aphex3k/docker-bitcoinknots
 Requires=docker.service
 After=docker.service
 
@@ -9,13 +9,13 @@ RestartSec=10
 Restart=always
 
 # Modify IP6_PREFIX to match network config
-Environment="NAME=bitcoind"
-Environment="DATA_VOL=bitcoind-data"
-Environment="IMG=kylemanna/bitcoind:dev"
+Environment="NAME=bitcoinknots"
+Environment="DATA_VOL=bitcoinknots-data"
+Environment="IMG=aphex3k/bitcoinknots:latest"
 Environment="PORT=8333:8333/tcp"
 
 # To override environment variables, use local configuration directory:
-# /etc/systemd/system/docker-bitcoind.service/local.conf
+# /etc/systemd/system/docker-bitcoinknots.service/local.conf
 # http://www.freedesktop.org/software/systemd/man/systemd.unit.html
 
 # Clean-up bad state if still hanging around
