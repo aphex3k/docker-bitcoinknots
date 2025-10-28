@@ -25,7 +25,7 @@ RUN apt-get update \
     wget \
     && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ARG VERSION=29.1.knots20250903
+ARG VERSION=29.2.knots20251010
 ARG LUKE_PGP_SIGNATURE=1A3E761F19D2CC7785C5502EA291A2C45D0C504A
 
 # Don't use base image's bitcoin package for a few reasons:
